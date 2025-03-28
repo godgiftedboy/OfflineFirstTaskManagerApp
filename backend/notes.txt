@@ -1,0 +1,7 @@
+TS config (nodemon configuration) - script
+- "watch":["src"] 
+    To watch only src folder. If not included, the docker will also watch to nodemodules folder which will cause the error saying nodemon is watching too many files.
+- "ignore":["dist/*"] (optional)
+    To ignore the dist folder.
+-  "ext":"ts" - specified the extension (optional)
+ 
