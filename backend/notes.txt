@@ -1,4 +1,16 @@
 TS config (nodemon configuration) - script
+"devDependencies"
+    "@types/node" - types specific to node
+    "@types/express" - to add types specific to express
+    "@types/pg"
+    "nodemon"
+    "ts-node"
+    "typescript"
+- npx tsc --init
+    To initialize a typescript
+    Uncomment the lines below
+     "rootDir": "./src", - read the ts files from
+     "outDir": "./dist", - location to store compiled js files from ts 
 - "watch":["src"] 
     To watch only src folder. If not included, the docker will also watch to nodemodules folder which will cause the error saying nodemon is watching too many files.
 - "ignore":["dist/*"] (optional)
@@ -14,5 +26,15 @@ Docket File setup
 
     CMD executes on container creation / image execution - docker run
     A dockerfile can contain only one CMD 
+
+- docker build -t task_backend .
+    Creating a docker image for backend server.
+    -t refers to tag to recognize the image.
+    . at end refers to tell that Dockerfile is in current directory
+
+- docker run -p 8000:8000 task_backend
+    task_backend is the image name specified.
+    -p refers to port
+    port 8000 of our computer  mapped to port 8000 of the container
 
  
