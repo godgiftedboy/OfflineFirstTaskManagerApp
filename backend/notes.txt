@@ -60,6 +60,14 @@ Packages:
     by visiting the npm site and if there is DT after the package name
     it redirects to the @types for the package.
 
+Drizzle-kit
+    It is required to run the migrations on docker container.
+    We have to manually run the migration commands without it.
+    - npx drizzle-kit push
+
+    Everytime the container is restarted the database data doesnt persist.
+
+
 
 
  

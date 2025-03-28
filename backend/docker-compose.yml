@@ -6,7 +6,7 @@ services:
       - "8000:8000"
     environment:
       - PORT=8000
-      - DATABASE_URL=postgresql://postgres:test123@mydb:5432/mydb
+      - DATABASE_URL=postgresql://postgres:test123@db:5432/mydb
     depends_on:
       - db
     volumes:
