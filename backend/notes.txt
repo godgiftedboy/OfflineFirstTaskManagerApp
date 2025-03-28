@@ -67,6 +67,28 @@ Drizzle-kit
 
     Everytime the container is restarted the database data doesnt persist.
 
+Database data persistence - Named Volumes
+    Named Volumes are created with user defined names.
+    used for data persitence of the database containers.
+    defined a named volume as:
+        volumes:
+            postgres_data:
+    This named volume is added to the postgres_container as:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      All the data stored in this path are stored in the named volume postgres_data.
+      This volume is managed automatically by docker.
+
+    docker compose up --build 
+        - the build flag is added so that new things added would be built.
+        - we just simple run
+            docker compose up
+            when new things are added. (new packages, new services changres in docker file)
+            refer chatgpt for more
+    
+
+
+
 
 
 

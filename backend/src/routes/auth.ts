@@ -20,10 +20,12 @@ authRouter.post("/signup",
         //check if user already exists
         const existingUser =  await db.select().from(users).where(eq(users.email, email));
 
-        if(!existingUser.length){
+        if(existingUser.length!=0){
              res.status(400).json({"message":"User already exists"})
              return
         }
+        
+
         //create a new user and store it in db
 
         const hashedPassword = await bcryptjs.hash(password,8);
