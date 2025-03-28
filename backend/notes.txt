@@ -37,4 +37,14 @@ Docket File setup
     -p refers to port
     port 8000 of our computer  mapped to port 8000 of the container
 
+
+
+Docker Compose:
+    To run more than one container simultaneously
+    docker compose up --build
+    --build to create image as well
+    docker compose down
+    
+
+
  
