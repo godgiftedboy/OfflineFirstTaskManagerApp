@@ -4,4 +4,15 @@ TS config (nodemon configuration) - script
 - "ignore":["dist/*"] (optional)
     To ignore the dist folder.
 -  "ext":"ts" - specified the extension (optional)
+
+Docket File setup
+
+- FROM node:20 - imported the node runtime from official docker hub
+- Difference between RUN and CMD
+    RUN executes on image creation - docker build
+    A dockerfile can contain multiple one RUN 
+
+    CMD executes on container creation / image execution - docker run
+    A dockerfile can contain only one CMD 
+
  
