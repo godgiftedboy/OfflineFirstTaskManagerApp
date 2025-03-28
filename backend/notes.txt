@@ -55,4 +55,11 @@ Volumes:
 
 
 
+Packages:
+    - Packages that required @types to be installed is to be known
+    by visiting the npm site and if there is DT after the package name
+    it redirects to the @types for the package.
+
+
+
  
