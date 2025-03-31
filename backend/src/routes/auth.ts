@@ -81,6 +81,42 @@ authRouter.post("/login",
     }
 })
 
+authRouter.post('/isTokenValid',async(req,res)=>{
+    try {
+        //get the header
+
+        const token = req.header('x-auth-token');
+        if(!token){
+             res.json(false);
+             return
+        }
+
+        //verify if token is valid
+        const verified = jwt.verify(token,"passwordKey");
+        if(!verified){
+             res.json(false);
+             return
+        }
+
+        //get user data if token is valid
+
+        const verifiedToken = verified as {id: string};
+
+        const user = db.select().from(users).where(eq(users.id,verifiedToken.id));
+
+        //if no user, return false  
+        if(!user){
+             res.json(false);
+             return
+        }
+
+        res.json(true);
+    } catch (error) {
+        res.status(500).json(false);
+        
+    }
+})
+
 
 authRouter.get("/",(req,res)=>{
     res.send("hello from auht Router");
