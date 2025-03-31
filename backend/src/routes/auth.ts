@@ -4,6 +4,7 @@ import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import { db } from "../db";
 import { NewUser, users } from "../db/schema";
+import { auth, AuthRequest } from "../middleware/auth";
 const authRouter = Router();
 
 interface SignUpBody{
@@ -118,8 +119,8 @@ authRouter.post('/isTokenValid',async(req,res)=>{
 })
 
 
-authRouter.get("/",(req,res)=>{
-    res.send("hello from auht Router");
+authRouter.get("/",auth,(req: AuthRequest,res)=>{
+    res.send(req.token);
 })
 
 export default authRouter;

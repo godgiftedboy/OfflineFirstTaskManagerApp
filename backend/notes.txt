@@ -87,7 +87,9 @@ Database data persistence - Named Volumes
             refer chatgpt for more
     
 
-
+Middlewares:
+    - Global Middlewares - app.use(express.json());
+    - Route specific Middlewares - Authentication Middleware
 
 
 
