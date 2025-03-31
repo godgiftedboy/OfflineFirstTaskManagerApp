@@ -1,9 +1,9 @@
 import bcryptjs from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { Request, Response, Router } from "express";
+import jwt from "jsonwebtoken";
 import { db } from "../db";
 import { NewUser, users } from "../db/schema";
-
 const authRouter = Router();
 
 interface SignUpBody{
@@ -73,7 +73,8 @@ authRouter.post("/login",
             res.status(401).json({"message":"Invalid creds"});
             return
         }
-        res.status(200).json(existingUser);        
+        const token = jwt.sign({id: existingUser.id},"passwordKey")
+        res.status(200).json({token,...existingUser});        
     } catch (error) {
         res.status(500).json({error:error});
         
