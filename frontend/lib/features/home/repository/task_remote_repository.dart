@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:frontend/core/constants/constants.dart';
 import 'package:frontend/core/constants/utils.dart';
+import 'package:frontend/features/home/repository/task_local_repository.dart';
 import 'package:frontend/models/task_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class TaskRemoteRepository {
+  final taskLocalRepository = TaskLocalRepository();
   Future<TaskModel> createTask({
     required String title,
     required String description,
@@ -37,6 +40,10 @@ class TaskRemoteRepository {
       return TaskModel.fromJson(res.body);
     } catch (e) {
       try {
+        //Store the unsynced data in separate table
+        //or Store it in same table with isSync as a new column
+        //to differentiate the synced and unsynced data
+        //We are using the isSync column here.
         final taskModel = TaskModel(
           id: const Uuid().v6(),
           uid: uid,
@@ -48,6 +55,8 @@ class TaskRemoteRepository {
           color: hexToRgb(hexColor),
           isSynced: 0,
         );
+        //insert the task to sqflite table on offline mode
+        await taskLocalRepository.insertTask(taskModel);
         return taskModel;
       } catch (e) {
         rethrow;
@@ -75,9 +84,14 @@ class TaskRemoteRepository {
       for (var elem in listOfTasks) {
         tasksList.add(TaskModel.fromMap(elem));
       }
-
+      await taskLocalRepository.insertTasks(tasksList);
       return tasksList;
     } catch (e) {
+      final tasks = await taskLocalRepository.getTasks();
+      log(tasks.toString());
+      if (tasks.isNotEmpty) {
+        return tasks;
+      }
       rethrow;
     }
   }

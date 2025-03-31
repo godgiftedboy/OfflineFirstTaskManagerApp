@@ -74,6 +74,10 @@ class TaskModel {
       dueAt: DateTime.parse(map['dueAt']),
       color: hexToRgb(map['hexColor']),
       isSynced: map['isSynced'] ?? 1,
+      //isSynced is null for fetched data.
+      //So it is set is 1 , i.e already synced
+      //The offline uploaded has 0
+      //so that it can be synced on internet connnection.
     );
   }
 
@@ -114,29 +118,4 @@ class TaskModel {
         color.hashCode ^
         isSynced.hashCode;
   }
-
-  static List<TaskModel> taskList = [
-    TaskModel(
-      id: '1',
-      uid: 'user_1',
-      title: 'Buy groceries',
-      description: 'Buy milk, eggs, and bread from the supermarket',
-      createdAt: DateTime.now().subtract(const Duration(days: 2)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-      dueAt: DateTime.now().add(const Duration(days: 3)),
-      color: const Color(0xFFFFA500), // Orange color
-      isSynced: 1,
-    ),
-    TaskModel(
-      id: '2',
-      uid: 'user_2',
-      title: 'Complete Flutter project',
-      description: 'Finish implementing authentication and UI improvements',
-      createdAt: DateTime.now().subtract(const Duration(days: 5)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
-      dueAt: DateTime.now().add(const Duration(days: 7)),
-      color: const Color(0xFF00FF00), // Green color
-      isSynced: 0,
-    ),
-  ];
 }
