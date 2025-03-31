@@ -33,14 +33,15 @@ export const auth = async(req: AuthRequest,res: Response,next: NextFunction)=>{
     
             const verifiedToken = verified as {id: UUID};
     
-            const user = db.select().from(users).where(eq(users.id,verifiedToken.id));
+            const user =await  db.select().from(users).where(eq(users.id,verifiedToken.id));
     
             //if no user, return false  
             if(!user){
                 res.status(401).json({message: "User Not Found"});
                  return
             }
-
+            
+            //Fill the field user and token of interface AuthRequest mentioned above.
             req.user = verifiedToken.id;
             req.token = token;
     

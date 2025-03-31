@@ -103,7 +103,7 @@ authRouter.post('/isTokenValid',async(req,res)=>{
 
         const verifiedToken = verified as {id: string};
 
-        const user = db.select().from(users).where(eq(users.id,verifiedToken.id));
+        const user =await db.select().from(users).where(eq(users.id,verifiedToken.id));
 
         //if no user, return false  
         if(!user){
@@ -119,8 +119,21 @@ authRouter.post('/isTokenValid',async(req,res)=>{
 })
 
 
-authRouter.get("/",auth,(req: AuthRequest,res)=>{
-    res.send(req.token);
+authRouter.get("/",auth,async(req: AuthRequest,res)=>{
+    try {
+        if(!req.user){
+            res.status(401).json({message: "User Not Found"});
+            return
+        }
+        //refetching the user still it is already fetched inside the auth middle ware
+        // as it may change in certain case while the process is ongoing.
+        const [user] =await db.select().from(users).where(eq(users.id,req.user));
+        res.json({...user, token: req.token})
+
+
+    } catch (error) {
+        res.status(500).json({error:error})
+    }
 })
 
 export default authRouter;
