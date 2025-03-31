@@ -27,7 +27,7 @@ authRouter.post("/signup",
         const existingUser =  await db.select().from(users).where(eq(users.email, email));
 
         if(existingUser.length!=0){
-             res.status(400).json({"message":"User already exists"})
+             res.status(400).json({"error":"User already exists"})
              return
         }
         
@@ -64,14 +64,14 @@ authRouter.post("/login",
         const [existingUser] =  await db.select().from(users).where(eq(users.email, email));
 
         if(!existingUser){
-             res.status(400).json({"message":"User doesn't exists"})
+             res.status(400).json({"error":"User doesn't exists"})
              return
         }
         //compare the password
         const isMatch = await bcryptjs.compare(password,existingUser.password);
 
         if(!isMatch){
-            res.status(401).json({"message":"Invalid creds"});
+            res.status(401).json({"error":"Invalid creds"});
             return
         }
         const token = jwt.sign({id: existingUser.id},"passwordKey")
@@ -122,7 +122,7 @@ authRouter.post('/isTokenValid',async(req,res)=>{
 authRouter.get("/",auth,async(req: AuthRequest,res)=>{
     try {
         if(!req.user){
-            res.status(401).json({message: "User Not Found"});
+            res.status(401).json({error: "User Not Found"});
             return
         }
         //refetching the user still it is already fetched inside the auth middle ware
