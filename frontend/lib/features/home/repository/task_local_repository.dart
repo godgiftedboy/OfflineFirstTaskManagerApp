@@ -82,6 +82,7 @@ class TaskLocalRepository {
     return [];
   }
 
+  //get unsynced task from local storage (sqflite)
   Future<List<TaskModel>> getUnsyncedTasks() async {
     final db = await database;
     final result = await db.query(
